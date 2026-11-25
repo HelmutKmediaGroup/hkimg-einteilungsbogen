@@ -1561,10 +1561,13 @@ else $("b-print").hidden=false;
   window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();ev=e;btn.hidden=false});
   window.addEventListener("appinstalled",()=>{btn.hidden=true;toast("App installiert. Du findest sie jetzt auf dem Startbildschirm.")});
   const ios=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
-  if(ios)btn.hidden=false;
+  const android=/Android/i.test(navigator.userAgent);
+  if(ios||android)btn.hidden=false;
   btn.addEventListener("click",async()=>{
     if(ev){ev.prompt();try{await ev.userChoice}catch(e){}ev=null;btn.hidden=true;return}
-    if(ios){const t=$("toast");t.textContent="In Safari: unten auf „Teilen“ tippen, dann „Zum Home-Bildschirm“.";t.classList.add("on");setTimeout(()=>t.classList.remove("on"),7000)}
+    const msg=ios?"In Safari: unten auf „Teilen“ tippen, dann „Zum Home-Bildschirm“."
+      :"In Chrome: oben rechts auf ⋮ tippen, dann „App installieren“ bzw. „Zum Startbildschirm hinzufügen“ → „Installieren“.";
+    const t=$("toast");t.textContent=msg;t.classList.add("on");setTimeout(()=>t.classList.remove("on"),9000);
   });
 })();
 function fname(ext){const base=[S.auftrag||"ohne-Auftragsnummer","Einteilungsbogen",S.kunde].filter(Boolean).join("_").replace(/[^\wäöüÄÖÜß.-]+/g,"-").replace(/-+/g,"-").slice(0,120);return base+"."+ext}

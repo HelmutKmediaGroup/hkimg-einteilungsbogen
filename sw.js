@@ -1,5 +1,5 @@
-/* HKIMG Einteilungsbogen – Offline-Cache. Version 62a9d4b1 */
-const CACHE="hkimg-einteilung-62a9d4b1";
+/* HKIMG Einteilungsbogen – Offline-Cache. Version 245cd2f1 */
+const CACHE="hkimg-einteilung-245cd2f1";
 const FILES=["index.html","manifest.webmanifest","icon-192.png","icon-512.png","icon-maskable-512.png","apple-touch-icon.png","favicon-64.png"];
 self.addEventListener("install",e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting()))});
 self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
